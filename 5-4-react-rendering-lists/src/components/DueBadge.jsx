@@ -27,5 +27,28 @@ export default function DueBadge({ dueDate }) {
 
   // TODO (TASK 3): implement DueBadge label logic
 
-  return <span className="badge">Label here</span>;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const dueDate = new Date(due);
+  dueDate.setHours(0, 0, 0, 0);
+
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const diffDays = Math.round((dueDate - today) / msPerDay);
+
+  let label = "";
+  let variant = "soon";
+
+  if (diffDays < 0) {
+    label = "Overdue";
+    variant = "late";
+  } else if (diffDays === 0) {
+    label = "Due today";
+    variant = "today";
+  } else {
+    label = `Due in ${diffDays} day${diffDays === 1 ? "" : "s"}`;
+    variant = "soon";
+  }
+
+  return <span className={`due ${variant}`}>{label}</span>;
 }

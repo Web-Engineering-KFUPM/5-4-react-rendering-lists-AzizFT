@@ -1,5 +1,7 @@
 // src/components/CourseCard.jsx
 import TaskItem from "./TaskItem";
+const hasTasks = course.tasks.length > 0;
+const allDone = hasTasks && course.tasks.every((t) => t.isDone);
 
 export default function CourseCard({ course, index, onMutateCourse }) {
   /* =========================================================
@@ -26,10 +28,16 @@ export default function CourseCard({ course, index, onMutateCourse }) {
       <header className="cardHeader">
         <h2>{course.title}</h2>
 
-        {/* TODO (TASK 3): Show “All caught up” badge ONLY when:
-            - course has tasks AND
-            - all tasks are done
-            Use logical && */}
+        {allDone && <span className="pill ok">All caught up</span>}
+        {!hasTasks && <p className="muted">No tasks yet.</p>}
+        {hasTasks && course.tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onToggle={toggleTask}
+            onDelete={deleteTask}
+          />
+      ))}
       </header>
 
       <section className="tasksSection">
