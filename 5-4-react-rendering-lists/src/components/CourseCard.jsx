@@ -11,12 +11,20 @@ export default function CourseCard({ course, index, onMutateCourse }) {
      2) Implement deleteTask(id) using onMutateCourse + .filter()
      ========================================================= */
 
-  function toggleTask(id) {
-    // TODO (TASK 4): toggle task.isDone for the task with matching id
+  function toggleTask(taskId) {
+    onMutateCourse(index, {
+      ...course,
+      tasks: course.tasks.map((t) =>
+        t.id === taskId ? { ...t, isDone: !t.isDone } : t
+      ),
+    });
   }
 
-  function deleteTask(id) {
-    // TODO (TASK 4): remove the task with matching id
+  function deleteTask(taskId) {
+    onMutateCourse(index, {
+      ...course,
+      tasks: course.tasks.filter((t) => t.id !== taskId),
+    });
   }
 
   // Helpful hints for TASK 3 (optional to use)
